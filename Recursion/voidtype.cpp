@@ -120,6 +120,8 @@ int boardPathDice(int src,int dest,string ans){
     }
     return count;
 }
+
+//=========================================================================================
     
 
 // int coinTargetSum(int arr[],int src,int target,string ans){
@@ -141,14 +143,14 @@ int boardPathDice(int src,int dest,string ans){
 //     return count;
 // }
 
+
+//Permutation with Repetition
 int coinChangePermute01(vector<int> arr,int vidx ,int target,string ans){
     if(target==0){
         cout<<ans<<endl;
         return 1;
     }
    
-    
-    
     int count=0;
     for(int ele:arr){
         if(target-ele>=0)
@@ -158,14 +160,14 @@ int coinChangePermute01(vector<int> arr,int vidx ,int target,string ans){
     }    
     return count;
 }
-    
+
+// Combination with Repetition
 int coinChangeCombina01(vector<int> arr,int vidx ,int target,string ans){
     if(target==0){
         cout<<ans<<endl;
         return 1;
     }
    
-    
     
     int count=0;
     for(int i=vidx;i<arr.size();i++){
@@ -177,15 +179,13 @@ int coinChangeCombina01(vector<int> arr,int vidx ,int target,string ans){
     return count;
 }
 
+// Combination without Repetition
 int coinChangeCombina02(vector<int> arr,int vidx ,int target,string ans){ 
         
     if(target==0){
         cout<<ans<<endl;
         return 1;
     }
-   
-    
-    
     int count=0;
     for(int i=vidx;i<arr.size();i++){
         if(target-arr[i]>=0)
@@ -196,46 +196,154 @@ int coinChangeCombina02(vector<int> arr,int vidx ,int target,string ans){
     return count;
 }
 
+//Permutation without Repetition
+int coinPermu_02(vector<int> &arr, vector<bool> &vis, int tar, string ans)
+{
+    if (tar == 0)
+    {
+        cout << ans << endl;
+        return 1;
+    }
 
+    int count = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (tar - arr[i] >= 0 && !vis[i])
+        {
+            vis[i] = true;
+            count += coinPermu_02(arr, vis, tar - arr[i], ans + to_string(arr[i]) + " ");
+            vis[i] = false;
+        }
+    }
+    return count;
+}
 
-int placeNqueenCombi(int n,int vidx,int queen,string ans){
-
-    if(vidx==n || queen<=0){
-        if(queen==0){
-            cout<<ans<<endl;
+//Permutation by Subsequence Method
+int coinPermu_03(vector<int> &arr, int idx, int tar, string ans)
+{
+    if (idx == arr.size() || tar == 0)
+    {
+        if (tar == 0)
+        {
+            cout << ans << endl;
             return 1;
         }
         return 0;
     }
-    int count=0;
-    for(int i=vidx;i<n;i++){
-        if(n-i>=queen)
-            count+=placeNqueenCombi(n,i+1,queen-1,ans+ to_string(i+1)+ "q");
-        }
-    
-    return count;
 
+    int count = 0;
+    if (tar - arr[idx] >= 0)
+    {
+        count += coinPermu_03(arr, 0, tar - arr[idx], ans + to_string(arr[idx]) + " ");
+    }
+    count += coinPermu_03(arr, idx + 1, tar, ans);
+    return count;
 }
 
-int placeNqueenPermut(int n,int queen,vector<bool> visited,string ans){
+//Combination by Subsequence Method(repetition of coin)
 
-    if(queen==0){
-            cout<<ans<<endl;
+int coinCombi_03(vector<int> &arr, int idx, int tar, string ans)
+{
+    if (idx == arr.size() || tar == 0)
+    {
+        if (tar == 0)
+        {
+            cout << ans << endl;
             return 1;
         }
+        return 0;
+    }
 
-    int count=0;
-    for(int i=0;i<n;i++){
-        if(!visited[i]){
-            visited[i]=true;
-            count+=placeNqueenPermut(n,queen-1,visited,ans+ to_string(i+1)+ "q");
-            visited[i]=false;
+    int count = 0;
+    if (tar - arr[idx] >= 0)
+    {
+        count += coinCombi_03(arr, idx, tar - arr[idx], ans + to_string(arr[idx]) + " "); //for without repetition use idx+1 here
+    }
+    count += coinCombi_03(arr, idx + 1, tar, ans);
+    return count;
+}
+
+//========================================================================================================
+//NQUEEN PROBEM
+
+// int placeNqueenCombi(int n,int vidx,int queen,string ans){
+
+//     if(vidx==n || queen<=0){
+//         if(queen==0){
+//             cout<<ans<<endl;
+//             return 1;
+//         }
+//         return 0;
+//     }
+//     int count=0;
+//     for(int i=vidx;i<n;i++){
+//         if(n-i>=queen)
+//             count+=placeNqueenCombi(n,i+1,queen-1,ans+ to_string(i+1)+ "q");
+//         }
+    
+//     return count;
+
+// }
+
+// int placeNqueenPermut(int n,int queen,vector<bool> visited,string ans){
+
+//     if(queen==0){
+//             cout<<ans<<endl;
+//             return 1;
+//         }
+
+//     int count=0;
+//     for(int i=0;i<n;i++){
+//         if(!visited[i]){
+//             visited[i]=true;
+//             count+=placeNqueenPermut(n,queen-1,visited,ans+ to_string(i+1)+ "q");
+//             visited[i]=false;
+//         }
+//     }
+    
+//     return count;
+
+// }
+
+
+int queenBoxCombi(int tnq, int tnb, int lqpsf, string ans)
+{
+    if (tnq == 0)
+    {
+        cout << ans << endl;
+        return 1;
+    }
+
+    int count = 0;
+    for (int i = lqpsf; i < tnb; i++)
+    {
+
+        count += queenBoxCombi(tnq - 1, tnb, i + 1,ans + "b" + to_string(i) + "q" + to_string(tnq) + " ");
+    }
+    return count;
+}
+
+int queenBoxPermu(int tnq, vector<bool> tnb, string ans)
+{
+    if (tnq == 0)
+    {
+        cout << ans << endl;
+        return 1;
+    }
+
+    int count = 0;
+    for (int i = 0; i < tnb.size(); i++)
+    {
+        if (!tnb[i])
+        {
+            tnb[i] = true;
+            count += queenBoxPermu(tnq - 1, tnb,ans + "b" + to_string(i) + "q" + to_string(tnq) + " ");
+            tnb[i] = false;
         }
     }
-    
     return count;
-
 }
+
 
 
 int NqueenCombi_sub(int n,int queen,int qloc,int qpsf,string ans){
@@ -312,6 +420,94 @@ int NqueenCombi_sub(int n,int queen,int qloc,int qpsf,string ans){
 //     return count;
 
 // }
+//NqueenPermut2D(0,0,3,3,3,visited,"");
+
+int queen2dBoxCombi(int tnq, vector<vector<bool>> &tnb, int lqpsf, string ans)
+{
+    if (tnq == 0)
+    {
+        cout << ans << endl;
+        return 1;
+    }
+
+    int count = 0;
+    for (int i = lqpsf; i < tnb.size() * tnb[0].size(); i++)
+    {
+        int x = i / tnb[0].size();
+        int y = i % tnb[0].size();
+
+        count += queen2dBoxCombi(tnq - 1, tnb, i + 1, ans + "(" + to_string(x) + ", " +to_string(y) + ") ");
+    }
+    return count;
+}
+
+int queen2DBoxPermu(int tnq, vector<vector<bool>> &tnb, string ans)
+{
+    if (tnq == 0)
+    {
+        cout << ans << endl;
+        return 1;
+    }
+
+    int count = 0;
+    for (int i = 0; i < tnb.size() * tnb[0].size(); i++)
+    {
+        int x = i / tnb[0].size();
+        int y = i % tnb[0].size();
+
+        if (!tnb[x][y])
+        {
+            tnb[x][y] = true;
+            count += queen2DBoxPermu(tnq - 1, tnb,ans + "(" + to_string(x) + ", " + to_string(y) + ") ");
+            tnb[x][y] = false;
+        }
+    }
+    return count;
+}
+
+//Nquuen with rules
+bool isSafeToPlaceQueen(vector<vector<bool>> &boxes, int x, int y)
+{
+    int xdir[4] = {0, -1, -1, -1};
+    int ydir[4] = {-1, -1, 0, 1};
+
+    for (int rad = 1; rad < max(boxes.size(), boxes[0].size()); rad++)
+    {
+        for (int d = 0; d < 4; d++)
+        {
+            int r = x + rad * xdir[d];
+            int c = y + rad * ydir[d];
+            if (r >= 0 && c >= 0 && r < boxes.size() && c < boxes[0].size() && boxes[r][c])
+                return false;
+        }
+    }
+    
+    return true;
+}
+
+int nQueenRules(int tnq, vector<vector<bool>> &boxes, int lqpsf, string ans)   //same 
+{
+    if (tnq == 0)
+    {
+        cout << ans << endl;
+        return 1;
+    }
+
+    int count = 0;
+    for (int i = lqpsf; i < boxes.size() * boxes[0].size(); i++)
+    {
+        int x = i / boxes[0].size();
+        int y = i % boxes[0].size();
+        if (isSafeToPlaceQueen(boxes, x, y))
+        {
+            boxes[x][y] = true;
+            count += nQueenRules(tnq - 1, boxes, i + 1,ans + "(" + to_string(x) + ", " +to_string(y) + ") ");
+            boxes[x][y] = false;
+        }
+    }
+    return count;
+}
+
 //==================================================================//
 
 string a="send";                            //Global
@@ -417,15 +613,30 @@ int main(){
      //stringCompression("aaabbbbccc","",1);
     // mazePath(0,0,2,2,"");
   // cout<<boardPathDice(0,10,"");
-  //vector<int>arr={2,3,5,7};
-  //cout<<coinChangePermute(arr,0,10,"");
-//   coinChangeCombina01(arr,0,10,"");
+  
+
+//============================================
+    //vector<int>arr={2,3,5,7};
+    //cout<<coinChangePermute01(arr,0,10,"");
+    //cout<<coinChangeCombina01(arr,0,10,"");
+// cout << coinPermu_02(arr, vis, 10, "") << endl;
    // coinChangeCombina02(arr,0,10,"");
-//    cout<<placeNqueenCombi(5,0,3,"");
-//     vector<bool> visited(6,false);
-// cout<<placeNqueenPermut(5,3,visited,"");
-// cout<<NqueenCombi_sub(5,3,0,0,"");
-//NqueenPermut2D(0,0,3,3,3,visited,"");
+   //cout << coinPermu_03(arr, 0, 10, "") << endl;
+   //cout<<coinCombi_03(arr,0,10,"");
+
+   
+
+   //========================
+
+   // vector<bool> tnb(5,false);
+    // cout << queenBoxCombi(4, 16, 0, "") << endl;
+    // cout<<queenBoxPermu(3,tnb,"")<<endl;
+
+    // cout<<NqueenCombi_sub(5,3,0,0,"");
+
+
+    // vector<vector<bool>> boxes(7, vector<bool>(7, 0));
+    // cout << nQueenRules(7, boxes, 0, "") << endl;
 
 
    //===================

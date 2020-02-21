@@ -64,19 +64,21 @@ bool findData(Node *node, int data)
     if (node->data == data)
         return true;
 
-    // boolean res = false;
-    // res = res || findData(node->left, data);
-    // res = res || findData(node->right, data);
+    bool res = false;
+    res = res || findData(node->left, data);
+    res = res || findData(node->right, data);
 
-    bool left = findData(node->left, data);
-    if (left == true)
-        return left;
+    return res;
 
-    bool right = findData(node->right, data);
-    if (right == true)
-        return right;
+    // bool left = findData(node->left, data);
+    // if (left == true)
+    //     return left;
 
-    return false;
+    // bool right = findData(node->right, data);
+    // if (right == true)
+    //     return right;
+
+    // return false;
 }
 
 int size(Node *node)
@@ -88,59 +90,59 @@ int height(Node *node)
     return node == NULL ? -1 : max(height(node->left), height(node->right)) + 1;
 }
 
-vector<int> *nodeToRootPath(Node *node, int data)
+vector<Node*> nodeToRootPath(Node* node, int data)
 {
     if (node == NULL)
-        return NULL;
+        return {};
 
     if (node->data == data)
     {
-        vector<int> *base;
-        base->push_back(node->data);
+        vector<Node*> base;
+        base.push_back(node);
         return base;
     }
 
-    vector<int> *left = nodeToRootPath(node->left, data);
-    if (left != NULL)
+    vector<Node*> left = nodeToRootPath(node->left, data);
+    if (left.size() != 0)
     {
-        left->push_back(node->data);
+        left.push_back(node);
         return left;
     }
 
-    vector<int> *right = nodeToRootPath(node->right, data);
-    if (right != NULL)
+    vector<Node*> right = nodeToRootPath(node->right, data);
+    if (right.size() != 0)
     {
-        right->push_back(node->data);
+        right.push_back(node);
         return right;
     }
 
-    return NULL;
+    return {};
 }
 
-// Node *LCA_01(Node *node, int data1, int data2)
-// {
-//     vector<Node> list1 = nodeToRootPath(node, data1);
-//     vector<Node> list2 = nodeToRootPath(node, data2);
+Node *LCA_01(Node *node, int data1, int data2)
+{
+    vector<Node*> list1 = nodeToRootPath(node, data1);
+    vector<Node*> list2 = nodeToRootPath(node, data2);
 
-//     if (list1 == NULL || list2 == NULL)
-//         return {};
+    if (list1.size() == 0 || list2.size == 0)
+        return {};
 
-//     int i = list1.size() - 1;
-//     int j = list2.size() - 1;
-//     Node *prev = NULL;
+    int i = list1.size() - 1;
+    int j = list2.size() - 1;
+    Node *prev = NULL;
 
-//     while (i >= 0 && j >= 0)
-//     {
-//         if (list1.get(i)->data != list2.get(j)->data)
-//             break;
+    while (i >= 0 && j >= 0)
+    {
+        if (list1.get(i)->data != list2.get(j)->data)
+            break;
 
-//         prev = list1.get(i);
-//         i--;
-//         j--;
-//     }
+        prev = list1.get(i);
+        i--;
+        j--;
+    }
 
-//     return prev;
-// }
+    return prev;
+}
 
 int main()
 {
@@ -162,6 +164,14 @@ int main()
     //cout<<height(node)<<endl;
 
     //==================================
-    vector<int> *ans = nodeToRootPath(node, 80);
-    cout<<ans;
+    // vector<Node*> path = nodeToRootPath(node, 80);
+    // for(auto i: path){
+    //     cout<<i->data<<" ";
+    // }
+
+    //=======================================
+
+    // Node* ans=LCA_01(node,20,80);
+    // cout<<ans->data;
+    //===================================
 }

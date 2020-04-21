@@ -453,6 +453,8 @@ bool bipartite(int src, vector<int> &vis)
                 cout << rpair.vtx << " -> "
                      << "Bipartite" << endl;
             }
+
+            
             continue;
         }
 
@@ -460,6 +462,7 @@ bool bipartite(int src, vector<int> &vis)
 
         for (Edge *e : graph[rpair.vtx])
         {
+
             if (vis[e->v] == -1)
             {
                 int new_colour = (rpair.colour + 1) % 2;
@@ -602,16 +605,18 @@ int main()
 
     //===============================================================
 
-    vector<bool> visited(7, false);
+    //vector<bool> visited(7, false);
     // bfs_shortestPath(0,6,visited);
     //Efficientbfs_shortestPath(0,6,visited);
 
     //==========================================================
 
-    Connected();
+   // Connected();
 
-    // vector<int> visited(7,-1);
-    // bipartite(0,visited);
+   //====================================================
+
+    vector<int> visited(7,-1);
+    bipartite(0,visited);
 
     //dijikstra();
 }

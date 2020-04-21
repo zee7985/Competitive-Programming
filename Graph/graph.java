@@ -121,7 +121,7 @@ public class graph{
             // add neighbour
             for(Edge e :graph[rpair.vtx]){
                 if(!visited[e.v]) { //unmarked neighbour
-                bfsOb pair=new bfsOb(e.v,rpair.wtSofar +e.w,rpair.pathSofar +"->"+e.v);
+                bfsOb pair=new bfsOb(e.v ,  rpair.wtSofar +e.w ,   rpair.pathSofar +"->"+e.v);
                 queue.addLast(pair);
                 }
             }

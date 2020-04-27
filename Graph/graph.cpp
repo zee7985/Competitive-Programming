@@ -370,6 +370,61 @@ void Efficientbfs_shortestPath(int src, int des, vector<bool> vis)
         }
     }
 }
+void dfsHelper(int u, vector<bool> &visited)
+{
+    visited[u] = true;
+    cout << u << " ";
+
+    for (Edge *e : graph[u])
+    {
+        if (!visited[e->v])
+            dfsHelper(e->v, visited);
+    }
+}
+
+void dfs(int u)
+{
+
+    vector<bool> visited(graph.size(), false);
+
+    dfsHelper(u, visited);
+}
+
+
+
+
+void topoHelper(int u, vector<bool> &visited, stack<int> &s)
+{
+    visited[u] = true;
+
+    for (Edge *e : graph[u])
+    {
+        if (!visited[e->v])
+            topoHelper(e->v, visited,s);
+    }
+    s.push(u);
+}
+
+void topologicalSort()
+{
+
+    vector<bool> visited(graph.size(), false);
+    stack<int> s;
+    for (int i = 0; i < graph.size(); i++)
+    {
+        if (!visited[i])
+        {
+            topoHelper(i, visited, s);
+        }
+    }
+
+    while (!s.empty())
+    {
+        cout << s.top() << " ";
+        s.pop();
+    }
+}
+
 void Connected()
 {
     int cntConnected = 0;
@@ -406,7 +461,6 @@ void Connected()
 
     // cout<<cntConnected;
 }
-
 
 class partite_pair
 {
@@ -454,7 +508,6 @@ bool bipartite(int src, vector<int> &vis)
                      << "Bipartite" << endl;
             }
 
-            
             continue;
         }
 
@@ -560,7 +613,7 @@ int main()
     addedge(4, 5, 2);
     addedge(4, 6, 8);
     addedge(5, 6, 3);
-    // addedge(2,5,14);
+    addedge(2, 5, 14);
 
     // display();
     //removeEdge(4,5);
@@ -609,14 +662,19 @@ int main()
     // bfs_shortestPath(0,6,visited);
     //Efficientbfs_shortestPath(0,6,visited);
 
+    //============================================================
+
+    //dfs(2);
+    topologicalSort();
+
     //==========================================================
 
-   // Connected();
+    // Connected();
 
-   //====================================================
+    //====================================================
 
-    vector<int> visited(7,-1);
-    bipartite(0,visited);
+    // vector<int> visited(7, -1);
+    // bipartite(0, visited);
 
     //dijikstra();
 }

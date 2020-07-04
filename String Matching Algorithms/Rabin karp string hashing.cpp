@@ -3,7 +3,7 @@
 using namespace std;
 
 const int mod=1000000007;
-const int p=19;  //prime no.
+const int p=31;  //prime no.
 
 //return (a^b)%mod
 int powr(int a,int b)
@@ -44,42 +44,45 @@ int poly_hash_string(string s)
 
 int32_t main() {
     
-    string text="caaabaaabaa";
-    string pat="ab";
+    string text="abaacadsfreaaca";
+    string pat="aaca";
     int n=text.size();
     int m=pat.size();
+    
 
     int p_hash=poly_hash_string(pat);
-    
+       
     int text_hash=poly_hash_string(text.substr(0,m));
     
 
     if(text_hash==p_hash)
     {
-        cout<<0<<"\n";
+        cout<<0<<" ";
     }
 
-    for(int i=1;i<n;i++)
+    for(int i=m;i<n;i++)
     {
         int new_hash=text_hash;
         
         //1.step -remove Ist character from window
-        new_hash=(new_hash - (text[i-m+1] -'a' + 1) + mod)% mod; //if we substract something from mod value then we need to add mod
+        new_hash=(new_hash - (text[i-m] -'a' + 1) + mod)% mod; //if we substract something from mod value then we need to add mod
 
         //Step 2
         new_hash *=inv(p);  //   a/p=a*p^-1  
         new_hash%=mod;
 
         //Step 3
-        new_hash=new_hash + (text[i + m - 1] - 'a' + 1)*powr(p,m-1);
+        new_hash=new_hash + (text[i] - 'a' + 1)*powr(p,m-1);
         new_hash%=mod;
 
-        if(new_hash==text_hash)
+        
+        if(new_hash==p_hash)
         {
-            cout<<i<<"\n";
+            cout<<i - m + 1<<" ";
         }
 
         text_hash=new_hash;
+        
     }
-
+    return 0;
 }

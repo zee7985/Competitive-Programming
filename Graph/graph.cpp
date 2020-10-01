@@ -390,9 +390,6 @@ void dfs(int u)
     dfsHelper(u, visited);
 }
 
-
-
-
 void topoHelper(int u, vector<bool> &visited, stack<int> &s)
 {
     visited[u] = true;
@@ -400,7 +397,7 @@ void topoHelper(int u, vector<bool> &visited, stack<int> &s)
     for (Edge *e : graph[u])
     {
         if (!visited[e->v])
-            topoHelper(e->v, visited,s);
+            topoHelper(e->v, visited, s);
     }
     s.push(u);
 }
@@ -678,3 +675,4 @@ int main()
 
     //dijikstra();
 }
+

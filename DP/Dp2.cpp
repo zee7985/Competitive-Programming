@@ -1,7 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
+//Input : arr:{1,3,0,4,0,0,2,1,1,0}
+//Output=5
+   
 int minStepTopDown(int src,int des,vector<int> arr){
     vector<int> dp(des+1,-1);
     if(src==des){
@@ -26,7 +28,7 @@ int minStepTopDown(int src,int des,vector<int> arr){
 }
 
 
-int minStepDp(int src,vector<int> &arr,vector<int> &dp){
+int minStepBottomDp(int src,vector<int> &arr,vector<int> &dp){
     dp[arr.size()+1]={0};
 
 
@@ -41,7 +43,13 @@ int minStepDp(int src,vector<int> &arr,vector<int> &dp){
 
 }
 
-
+//Ques: There are N persons,they can go single or in pairs.Find total no of ways.
+//Input :3
+//OutPut: 4 
+    //1,2,3
+    //(1,2).3
+    //(1,3),2
+    //1,(2,3)
 int singlePairWays(int n){
     vector<int> dp(n+1,0);
     dp[n+1]={0};
@@ -55,6 +63,10 @@ int singlePairWays(int n){
     return dp[n];
 }
 
+//N numbers ,K sets
+//Two possibility : 
+    //Case 1 : Element can go in any set present till now f(n-1,k)*k  where k is no of available set
+    //Case 2: Element goes into new set f(n-1,k-1)
 int divideN_ksets(int n,int k){
     vector<vector<int>> dp(n+1,vector<int>(k+1,0));
 

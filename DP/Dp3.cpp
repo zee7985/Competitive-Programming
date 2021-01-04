@@ -1,6 +1,60 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+//Find the longest palindromic substring and its length
+//COunt the no of palindromic substring 
+
+string longestPalindromeSubstring(string s) {
+        int n=s.length();
+        vector<vector<bool>> isPali(s.size(), vector<bool>(s.size()));
+        
+         int count=0;
+        for(int gap=0;gap<n;gap++)
+        {
+            for(int i=0,j=gap;j<n;i++,j++)
+            {
+                if(gap==0)
+                {
+                    isPali[i][j]=true;
+                    count++;
+                    
+                }
+                else if(s[i]==s[j])
+                {
+                    if(gap==1)
+                    {
+                        isPali[i][j]=true;
+                        count++;
+                    }
+                    else
+                    {
+                        if(isPali[i+1][j-1]==true)
+                        {
+                            isPali[i][j]=true;
+                            count++;
+                    
+                        }
+                    }
+                }
+            }
+        }
+         //get maxstr result
+        int max = 0;
+        int strIdx=0;
+        string maxstr = "";
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                if(isPali[i][j]==true and j-i+1>max){
+                    max = j-i+1;
+                    strIdx=i;
+                }
+            }
+        }
+        maxstr = s.substr(strIdx,max);
+        return maxstr;
+    }
+
+/*
 vector<vector<bool>> isPali(string str){
     vector<vector<bool>>isPalindrome(str.length(),vector<bool>(str.length(),false));
 
@@ -102,6 +156,7 @@ string longestPaliSubstr_stringPrint(string str){
         return s;
 }
 
+*/
 
 int LongestPalindrom_Subseq_length(string str)
 {

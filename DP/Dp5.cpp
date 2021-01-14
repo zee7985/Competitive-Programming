@@ -68,38 +68,29 @@ int LBS(vector<int> &arr){
     return max_; 
 
 }
+
+//NlogN
+//https://www.youtube.com/watch?v=qW1O1a40-No
 int LIS_(vector<int> &arr)
 {
     vector<int> list;
     list.push_back(arr[0]);
-    int len = 1;
     for (int i = 1; i < arr.size(); i++)
     {
-        if (arr[i] > list[len - 1])
+        if (arr[i] > list.back())            //  If curr ele is greater than last element in list,Add element to the list
         {
             list.push_back(arr[i]);
-            len++;
         }
-        else
+        else                                // Update the list by finding just greater or equal element in list and replace by curr ele
         {
-            int li = 0;
-            int ri = len - 1;
-            while (li < ri)
-            {
-                int mid = (li + ri) / 2;
-                if (list[mid] < arr[i])
-                    li = mid + 1;
-                else
-                    ri = mid;
-            }
-            list[ri] = arr[i];
+            int idx=lower_bound(list.begin(),list.end())-list.begin();
+            list[idx] = arr[i];
         }
     }
    
     return len;
 }
-#include <bits/stdc++.h>
-using namespace std;
+
 const int MAX = 100; 
 
 int goldMine(int arr[][MAX], int m, int n){
